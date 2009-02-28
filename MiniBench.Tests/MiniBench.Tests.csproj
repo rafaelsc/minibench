@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BenchmarkResultTest.cs" />
+    <Compile Include="BenchmarkSettingsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestSuiteTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MiniBench\MiniBench.csproj">

@@ -22,13 +22,9 @@
 
         private readonly Func<TInput, TOutput> test;
         private readonly string name;
-        private readonly TInput input;
-        private readonly TOutput expectedOutput;
 
-        public BenchmarkTest(TInput input, TOutput expectedOutput, Func<TInput, TOutput> test, string description)
+        public BenchmarkTest(Func<TInput, TOutput> test, string description)
         {
-            this.input = input;
-            this.expectedOutput = expectedOutput;
             this.test = test;
             this.name = description;
         }
@@ -38,7 +34,7 @@
         /// This is only checked once, before the real benchmarking gets underway.
         /// </summary>
         /// <returns></returns>
-        public BenchmarkResult Run()
+        public BenchmarkResult Run(TInput input, TOutput expectedOutput)
         {
             TOutput actualOutput = test(input);
             if (!EqualityComparer<TOutput>.Default.Equals(expectedOutput, actualOutput))
@@ -46,20 +42,20 @@
                 throw new TestFailureException(name);
             }
             ulong iterations = 1;
-            TimeSpan elapsed = RunAndTime(iterations);
+            TimeSpan elapsed = RunAndTime(input, iterations);
             while (elapsed < MinSampleTime)
             {
                 iterations *= 2;
-                elapsed = RunAndTime(iterations);
+                elapsed = RunAndTime(input, iterations);
             }
             // Upscale the sample to the target time. Do this in floating point arithmetic
             // to avoid overflow issues.
             iterations = (ulong)((TargetTestTime.Ticks / (double)elapsed.Ticks) * iterations);
-            elapsed = RunAndTime(iterations);
+            elapsed = RunAndTime(input, iterations);
             return new BenchmarkResult(name, elapsed, iterations);
         }
 
-        private TimeSpan RunAndTime(ulong iterations)
+        private TimeSpan RunAndTime(TInput input, ulong iterations)
         {
             Stopwatch sw = Stopwatch.StartNew();
             for (ulong i = 0; i < iterations; i++)
