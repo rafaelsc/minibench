@@ -4,10 +4,11 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.IO;
 
     public sealed class ResultSuite : IEnumerable<BenchmarkResult>
     {
-        private static readonly Dictionary<ResultColumns, Func<BenchmarkResult, BenchmarkResult, string>> Formatters = 
+        private static readonly Dictionary<ResultColumns, Func<BenchmarkResult, BenchmarkResult, string>> Formatters =
             new Dictionary<ResultColumns, Func<BenchmarkResult, BenchmarkResult, string>>
         {
             { ResultColumns.Name, (result, ignored) => result.Name },
@@ -15,8 +16,7 @@
             { ResultColumns.Duration, (result, ignored) => string.Format("{0}.{1:000}", result.Duration.Seconds, result.Duration.Milliseconds) },
             { ResultColumns.Score, (result, standard) => result.GetScaledScore(standard).ToString("F2") }
         };
-        private static readonly ResultColumns[] IndividualColumns = 
-            { ResultColumns.Name, ResultColumns.Iterations, ResultColumns.Duration, ResultColumns.Score };
+        private static readonly ResultColumns[] IndividualColumns = { ResultColumns.Name, ResultColumns.Iterations, ResultColumns.Duration, ResultColumns.Score };
 
         private readonly List<BenchmarkResult> results;
         private readonly string name;
@@ -34,7 +34,7 @@
 
         public ResultSuite Scale(BenchmarkResult standard, ScalingMode mode)
         {
-            return new ResultSuite (name, results.Select(x => x.ScaleToStandard(standard, mode)));
+            return new ResultSuite(name, results.Select(x => x.ScaleToStandard(standard, mode)));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@
         }
 
         /// <summary>
-        /// Convenience method to display the results when no score scaling is required.
+        /// Convenience method to display the results when no score scaling is required and output should be Console.Out.
         /// </summary>
         /// <param name="columns"></param>
         public void Display(ResultColumns columns)
@@ -76,14 +76,26 @@
         }
 
         /// <summary>
-        /// Displays the results, optionally scaling scores to the given standard.
+        /// Displays the results, optionally scaling scores to the given standard, printing to Console.Out.
         /// </summary>
         /// <param name="columns">Columns to display</param>
         /// <param name="standardForScore">Result to count as a score of 1.0. May be null, in which 
         /// case the raw scores (ticks per iteration) are displayed.</param>
         public void Display(ResultColumns columns, BenchmarkResult standardForScore)
         {
-            Console.WriteLine("============ {0} ============", name);
+            Display(Console.Out, columns, standardForScore);
+        }
+
+        /// <summary>
+        /// Displays the results, optionally scaling scores to the given standard, printing to the given TextWriter.
+        /// </summary>
+        /// <param name="output">TextWriter to output to</param>
+        /// <param name="columns">Columns to display</param>
+        /// <param name="standardForScore">Result to count as a score of 1.0. May be null, in which 
+        /// case the raw scores (ticks per iteration) are displayed.</param>
+        public void Display(TextWriter output, ResultColumns columns, BenchmarkResult standardForScore)
+        {
+            output.WriteLine("============ {0} ============", name);
 
             List<List<string>> formattedColumns = new List<List<string>>();
 
@@ -105,17 +117,17 @@
                     string unpadded = formattedColumns[col][row];
                     if (col == 0)
                     {
-                        Console.Write(unpadded.PadRight(maxLengths[col]));
+                        output.Write(unpadded.PadRight(maxLengths[col]));
                     }
                     else
                     {
-                        Console.Write(" ");
-                        Console.Write(unpadded.PadLeft(maxLengths[col]));
+                        output.Write(" ");
+                        output.Write(unpadded.PadLeft(maxLengths[col]));
                     }
                 }
-                Console.WriteLine();
+                output.WriteLine();
             }
-            Console.WriteLine();
+            output.WriteLine();
         }
     }
 }
