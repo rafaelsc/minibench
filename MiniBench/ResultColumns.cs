@@ -9,9 +9,9 @@
         Iterations = 2,
         Duration = 4,
         Score = 8,
-        NameAndIterations = 1 | 2,
-        NameAndDuration = 1 | 4,
-        NameAndScore = 1 | 8,
-        All = 1 | 2 | 4 | 8
+        NameAndIterations = Name | Iterations,
+        NameAndDuration = Name | Duration,
+        NameAndScore = Name | Score,
+        All = Name | Iterations | Duration | Score
     }
 }
