@@ -1,0 +1,89 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+using System.IO;
+
+namespace MiniBench.Tests.ResultSuiteTests
+{
+    [TestFixture]
+    public class ResultSuiteDisplayTest
+    {
+        private static ResultSuite suite = new ResultSuite("SuiteName",
+                                                            new[] {
+                                                                new BenchmarkResult("Result1Name", new TimeSpan(10000), 100),
+                                                                new BenchmarkResult("Result2Name", new TimeSpan(5000), 200)
+                                                            });
+        private static BenchmarkResult normalize = new BenchmarkResult("Normalizer", new TimeSpan(7000), 100);
+
+        [Test]
+        public void ResultSuiteDisplaysCorrectlyUnnormalizedAllColumns()
+        {
+            string expectedText = @"============ SuiteName ============
+Result1Name  100.00  0.001  100.00
+Result2Name  200.00  0.000   25.00
+
+";
+
+
+            string text = DisplayResultSuiteToString(suite, ResultColumns.All, null);
+
+            Assert.AreEqual(text, expectedText);
+        }
+
+        [Test]
+        public void ResultSuiteDisplaysCorrectlyNormalizedAllColumns()
+        {
+            string expectedText = @"============ SuiteName ============
+Result1Name  100.00  0.001  1.43
+Result2Name  200.00  0.000  0.36
+
+";
+
+            string text = DisplayResultSuiteToString(suite, ResultColumns.All, normalize);
+
+            Assert.AreEqual(text, expectedText);
+        }
+
+        [Test]
+        public void ResultSuiteDisplaysCorrectlyUnnormalized()
+        {
+            string expectedText = @"============ SuiteName ============
+Result1Name  0.001  100.00
+Result2Name  0.000   25.00
+
+";
+
+            string text = DisplayResultSuiteToString(suite, ResultColumns.Name | ResultColumns.Duration | ResultColumns.Score, null);
+
+            Assert.AreEqual(text, expectedText);
+        }
+
+        [Test]
+        public void ResultSuiteDisplaysCorrectlyNormalized()
+        {
+            string expectedText = @"============ SuiteName ============
+Result1Name  0.001  1.43
+Result2Name  0.000  0.36
+
+";
+
+            string text = DisplayResultSuiteToString(suite, ResultColumns.Name | ResultColumns.Duration | ResultColumns.Score, normalize);
+
+            Assert.AreEqual(text, expectedText);
+        }
+
+        private static string DisplayResultSuiteToString(ResultSuite suite, ResultColumns columns, BenchmarkResult standardForScore)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            using (StreamWriter writer = new StreamWriter(stream))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                suite.Display(writer, columns, standardForScore);
+                writer.Flush();
+                stream.Position = 0;
+                return reader.ReadToEnd();
+            }
+        }
+    }
+}
