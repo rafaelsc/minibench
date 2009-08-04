@@ -20,57 +20,57 @@ namespace MiniBench.Tests.ResultSuiteTests
         public void ResultSuiteDisplaysCorrectlyUnnormalizedAllColumns()
         {
             string expectedText = @"============ SuiteName ============
-Result1Name  100.00  0.001  100.00
-Result2Name  200.00  0.000   25.00
+Result1Name 100.00 0:00.001 100.00
+Result2Name 200.00 0:00.000  25.00
 
 ";
 
 
             string text = DisplayResultSuiteToString(suite, ResultColumns.All, null);
 
-            Assert.AreEqual(text, expectedText);
+            Assert.AreEqual(expectedText, text);
         }
 
         [Test]
         public void ResultSuiteDisplaysCorrectlyNormalizedAllColumns()
         {
             string expectedText = @"============ SuiteName ============
-Result1Name  100.00  0.001  1.43
-Result2Name  200.00  0.000  0.36
+Result1Name 100.00 0:00.001 1.43
+Result2Name 200.00 0:00.000 0.36
 
 ";
 
             string text = DisplayResultSuiteToString(suite, ResultColumns.All, normalize);
 
-            Assert.AreEqual(text, expectedText);
+            Assert.AreEqual(expectedText, text);
         }
 
         [Test]
         public void ResultSuiteDisplaysCorrectlyUnnormalized()
         {
             string expectedText = @"============ SuiteName ============
-Result1Name  0.001  100.00
-Result2Name  0.000   25.00
+Result1Name 0:00.001 100.00
+Result2Name 0:00.000  25.00
 
 ";
 
             string text = DisplayResultSuiteToString(suite, ResultColumns.Name | ResultColumns.Duration | ResultColumns.Score, null);
 
-            Assert.AreEqual(text, expectedText);
+            Assert.AreEqual(expectedText, text);
         }
 
         [Test]
         public void ResultSuiteDisplaysCorrectlyNormalized()
         {
             string expectedText = @"============ SuiteName ============
-Result1Name  0.001  1.43
-Result2Name  0.000  0.36
+Result1Name 0:00.001 1.43
+Result2Name 0:00.000 0.36
 
 ";
 
             string text = DisplayResultSuiteToString(suite, ResultColumns.Name | ResultColumns.Duration | ResultColumns.Score, normalize);
 
-            Assert.AreEqual(text, expectedText);
+            Assert.AreEqual(expectedText, text);
         }
 
         private static string DisplayResultSuiteToString(ResultSuite suite, ResultColumns columns, BenchmarkResult standardForScore)

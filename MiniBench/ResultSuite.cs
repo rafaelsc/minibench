@@ -13,7 +13,8 @@
         {
             { ResultColumns.Name, (result, ignored) => result.Name },
             { ResultColumns.Iterations, (result, ignored) => result.Iterations.ToString("N") },
-            { ResultColumns.Duration, (result, ignored) => string.Format("{0}.{1:000}", result.Duration.Seconds, result.Duration.Milliseconds) },
+            { ResultColumns.Duration, (result, ignored) => string.Format("{0}:{1:00}.{2:000}", 
+                (int) result.Duration.TotalMinutes, result.Duration.Seconds, result.Duration.Milliseconds) },
             { ResultColumns.Score, (result, standard) => result.GetScaledScore(standard).ToString("F2") }
         };
         private static readonly ResultColumns[] IndividualColumns = { ResultColumns.Name, ResultColumns.Iterations, ResultColumns.Duration, ResultColumns.Score };
