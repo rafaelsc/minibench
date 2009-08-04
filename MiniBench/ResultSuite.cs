@@ -12,7 +12,7 @@
             new Dictionary<ResultColumns, Func<BenchmarkResult, BenchmarkResult, string>>
         {
             { ResultColumns.Name, (result, ignored) => result.Name },
-            { ResultColumns.Iterations, (result, ignored) => result.Iterations.ToString("N") },
+            { ResultColumns.Iterations, (result, ignored) => result.Iterations.ToString() },
             { ResultColumns.Duration, (result, ignored) => string.Format("{0}:{1:00}.{2:000}", 
                 (int) result.Duration.TotalMinutes, result.Duration.Seconds, result.Duration.Milliseconds) },
             { ResultColumns.Score, (result, standard) => result.GetScaledScore(standard).ToString("F2") }
