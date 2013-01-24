@@ -47,9 +47,9 @@
             return Scale(FindBest(), mode);
         }
 
-        public BenchmarkResult this[int i]
+        public BenchmarkResult this[int index]
         {
-            get { return results[i]; }
+            get { return results[index]; }
         }
 
         public BenchmarkResult FindBest()

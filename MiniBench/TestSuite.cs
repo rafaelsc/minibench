@@ -13,10 +13,10 @@
     /// <example>
     /// The idiomatic way to build up a suite is with a chain of calls to Plus:
     /// <code>
-    /// var suite = new TestSuite<string, int>("String tests")
+    /// var suite = new TestSuite&lt;string, int&gt;("String tests")
     ///         .Plus(x => x.Length, "Length")
     ///         .Plus(AddVowels)
-    ///         .Plus(new BenchmarkTest<string,int>(x => x.Length, "Length again"));
+    ///         .Plus(new BenchmarkTest&lt;string,int&gt;(x => x.Length, "Length again"));
     /// </code>
     /// In fact, you may not need the test suite as a variable at all, if you just want
     /// to run it at the end - a call to <see cref="RunTests" /> with return
