@@ -72,7 +72,7 @@
     <Compile Include="BenchmarkSettingsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultColumnsTest.cs" />
-    <Compile Include="ResultSuiteTests.cs" />
+    <Compile Include="ResultSuiteDisplayTest.cs" />
     <Compile Include="TestSuiteTest.cs" />
   </ItemGroup>
   <ItemGroup>

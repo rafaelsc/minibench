@@ -3,17 +3,17 @@ using System.Linq;
 using NUnit.Framework;
 using System.IO;
 
-namespace MiniBench.Tests.ResultSuiteTests
+namespace MiniBench.Tests
 {
     [TestFixture]
     public class ResultSuiteDisplayTest
     {
-        private static ResultSuite suite = new ResultSuite("SuiteName",
+        private static readonly ResultSuite suite = new ResultSuite("SuiteName",
                                                             new[] {
                                                                 new BenchmarkResult("Result1Name", new TimeSpan(10000), 100),
                                                                 new BenchmarkResult("Result2Name", new TimeSpan(5000), 200)
                                                             });
-        private static BenchmarkResult normalize = new BenchmarkResult("Normalizer", new TimeSpan(7000), 100);
+        private static readonly BenchmarkResult normalize = new BenchmarkResult("Normalizer", new TimeSpan(7000), 100);
 
         [Test]
         public void ResultSuiteDisplaysCorrectlyUnnormalizedAllColumns()

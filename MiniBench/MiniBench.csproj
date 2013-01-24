@@ -76,7 +76,7 @@
     <Compile Include="ResultColumns.cs" />
     <Compile Include="ResultSuite.cs" />
     <Compile Include="ScalingMode.cs" />
-    <Compile Include="TestFailure.cs" />
+    <Compile Include="TestFailureException.cs" />
     <Compile Include="TestSuite.cs" />
   </ItemGroup>
   <ItemGroup>
