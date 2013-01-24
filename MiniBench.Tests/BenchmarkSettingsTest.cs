@@ -11,6 +11,8 @@ namespace MiniBench.Tests
         public void ParseAllSettings()
         {
             BenchmarkSettings settings = BenchmarkSettings.Parse("/calibration-time:10", "/test-time:50");
+            Assert.AreEqual(settings.CalibrationTime, TimeSpan.FromSeconds(10));
+            Assert.AreEqual(settings.TestTime, TimeSpan.FromSeconds(50));
         }
 
         [Test]
