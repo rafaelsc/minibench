@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace MiniBench
+﻿namespace MiniBench
 {
     using System;
     using System.Collections.Generic;
