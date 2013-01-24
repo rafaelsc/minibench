@@ -7,11 +7,9 @@ namespace MiniBench.Tests
     [TestFixture]
     public class BenchmarkResultTest
     {
-        private static readonly BenchmarkResult FastResult =
-            new BenchmarkResult("Fast Test", TimeSpan.FromSeconds(30), 10000);
+        private static readonly BenchmarkResult FastResult = new BenchmarkResult("Fast Test", TimeSpan.FromSeconds(30), 10000);
         // SlowResult takes twice as long to do half as many iterations
-        private static readonly BenchmarkResult SlowResult = 
-            new BenchmarkResult("Slow Test", TimeSpan.FromSeconds(60), 5000);
+        private static readonly BenchmarkResult SlowResult = new BenchmarkResult("Slow Test", TimeSpan.FromSeconds(60), 5000);
 
         [Test]
         public void EqualityChecksAllProperties()
