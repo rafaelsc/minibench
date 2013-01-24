@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
 using NUnit.Framework;
 using System.IO;
+using System.Threading;
+using System.Globalization;
 
 namespace MiniBench.Tests
 {
@@ -14,6 +15,12 @@ namespace MiniBench.Tests
                                                                 new BenchmarkResult("Result2Name", new TimeSpan(5000), 200)
                                                             });
         private static readonly BenchmarkResult normalize = new BenchmarkResult("Normalizer", new TimeSpan(7000), 100);
+
+        [TestFixtureSetUp]
+        public void ConfigureCulture()
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+        }
 
         [Test]
         public void ResultSuiteDisplaysCorrectlyUnnormalizedAllColumns()
