@@ -44,9 +44,12 @@
                                     // You don't have to specify a method group - but you'll probably want to give an explicit name if you use
                                     .Plus(input => String.Join(" ", input), "String.Join")
                                     .Plus(LoopingWithStringBuilderCommumUsage)
+                                    .Plus(input => LoopingWithStringBuilderWithInitialCapacity(input, expectedData.Length + 2), "LoopingWithStringBuilderWithInitialCapacity")
                                     .Plus(LoopingWithStringBuilderWithInitialValue)
-                                    .Plus(input => LoopingWithStringBuilderWithInitialValueAndCapacity(input, expectedData.Length +1), "LoopingWithStringBuilderWithInitialValueAndCapacity")
-                                    .Plus(LoopingWithStringConcatenation);
+                                    .Plus(input => LoopingWithStringBuilderWithInitialValueAndCapacity(input, expectedData.Length + 2), "LoopingWithStringBuilderWithInitialValueAndCapacity")
+                                    .Plus(LoopingWithStringConcatenation)
+                                    .Plus(LoopingWithStringConcat)
+                                    .Plus(LoopingWithStringFormat);
 
             // This returns a ResultSuite
             var resultsSmallData = benchmarkSuite.RunTests(testData, expectedData)
@@ -75,6 +78,17 @@
                 builder.Append(input[i]);
             }
             return builder.ToString();
+        }
+
+        static string LoopingWithStringConcat(string[] input)
+        {
+            var ret = input[0];
+            for (var i = 1; i < input.Length; i++)
+            {
+                // At least avoid *one* temporary string per iteration
+                ret = String.Concat(ret, " ", input[i]);
+            }
+            return ret;
         }
 
         static string LoopingWithStringBuilderWithInitialValue(string[] input)
@@ -110,6 +124,30 @@
             return ret;
         }
 
+        static string LoopingWithStringFormat(string[] input)
+        {
+            var ret = input[0];
+            for (var i = 1; i < input.Length; i++)
+            {
+                // At least avoid *one* temporary string per iteration
+                ret = String.Format("{0} {1}", ret, input[i]);
+            }
+            return ret;
+        }
+
+
+        static string LoopingWithStringBuilderWithInitialCapacity(string[] input, int capacity)
+        {
+            var builder = new StringBuilder(capacity);
+
+            builder.Append(input[0]);
+            for (var i = 1; i < input.Length; i++)
+            {
+                builder.Append(" ");
+                builder.Append(input[i]);
+            }
+            return builder.ToString();
+        }
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
