@@ -1,4 +1,6 @@
-﻿namespace MiniBench.Sample
+﻿using System.Globalization;
+
+namespace MiniBench.Sample
 {
     using System;
     using System.Linq;
@@ -8,7 +10,7 @@
     static class Program
     {
 
-        static void Main(string[] args)
+        static void Main()
         {
             BenchmarkStringJoinForSmallDataSet();
             BenchmarkStringJoinForBigDataSet();
@@ -23,13 +25,13 @@
         private static void BenchmarkStringJoinForSmallDataSet()
         {
             string[] testData = { "a", "b", "c", "d", "e" };
-            string expectedData = "a b c d e";
+            const string expectedData = "a b c d e";
 
             BenchmarkStringJoin(testData, expectedData);
         }
         private static void BenchmarkStringJoinForBigDataSet()
         {
-            string[] testData = Enumerable.Range(0, 5000).Select(idx => idx.ToString()).ToArray() ;
+            string[] testData = Enumerable.Range(0, 5000).Select(idx => idx.ToString(CultureInfo.InvariantCulture)).ToArray() ;
             string expectedData = String.Join(" ", testData);
 
             BenchmarkStringJoin(testData, expectedData);
@@ -69,10 +71,10 @@
 
         static string LoopingWithStringBuilderCommumUsage(string[] input)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             
             builder.Append(input[0]);
-            for (int i = 1; i < input.Length; i++)
+            for (var i = 1; i < input.Length; i++)
             {
                 builder.Append(" ");
                 builder.Append(input[i]);
@@ -93,8 +95,8 @@
 
         static string LoopingWithStringBuilderWithInitialValue(string[] input)
         {
-            StringBuilder builder = new StringBuilder(input[0]);
-            for (int i = 1; i < input.Length; i++)
+            var builder = new StringBuilder(input[0]);
+            for (var i = 1; i < input.Length; i++)
             {
                 builder.Append(" ");
                 builder.Append(input[i]);
@@ -104,8 +106,8 @@
 
         static string LoopingWithStringBuilderWithInitialValueAndCapacity(string[] input, int capacity)
         {
-            StringBuilder builder = new StringBuilder(input[0], capacity);
-            for (int i = 1; i < input.Length; i++)
+            var builder = new StringBuilder(input[0], capacity);
+            for (var i = 1; i < input.Length; i++)
             {
                 builder.Append(" ");
                 builder.Append(input[i]);
@@ -115,8 +117,8 @@
 
         static string LoopingWithStringConcatenation(string[] input)
         {
-            string ret = input[0];
-            for (int i = 1; i < input.Length; i++)
+            var ret = input[0];
+            for (var i = 1; i < input.Length; i++)
             {
                 // At least avoid *one* temporary string per iteration
                 ret = ret + " " + input[i];

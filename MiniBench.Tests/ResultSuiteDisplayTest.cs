@@ -25,7 +25,7 @@ namespace MiniBench.Tests
         [Test]
         public void ResultSuiteDisplaysCorrectlyUnnormalizedAllColumns()
         {
-            string expectedText = @"============ SuiteName ============
+            const string expectedText = @"============ SuiteName ============
 Result1Name 100 0:00.001 100.00
 Result2Name 200 0:00.000  25.00
 
@@ -40,7 +40,7 @@ Result2Name 200 0:00.000  25.00
         [Test]
         public void ResultSuiteDisplaysCorrectlyNormalizedAllColumns()
         {
-            string expectedText = @"============ SuiteName ============
+            const string expectedText = @"============ SuiteName ============
 Result1Name 100 0:00.001 1.43
 Result2Name 200 0:00.000 0.36
 
@@ -54,7 +54,7 @@ Result2Name 200 0:00.000 0.36
         [Test]
         public void ResultSuiteDisplaysCorrectlyUnnormalized()
         {
-            string expectedText = @"============ SuiteName ============
+            const string expectedText = @"============ SuiteName ============
 Result1Name 0:00.001 100.00
 Result2Name 0:00.000  25.00
 
@@ -68,7 +68,7 @@ Result2Name 0:00.000  25.00
         [Test]
         public void ResultSuiteDisplaysCorrectlyNormalized()
         {
-            string expectedText = @"============ SuiteName ============
+            const string expectedText = @"============ SuiteName ============
 Result1Name 0:00.001 1.43
 Result2Name 0:00.000 0.36
 

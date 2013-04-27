@@ -55,7 +55,7 @@ namespace MiniBench.Tests
         [Test]
         public void TestAll()
         {
-            ResultColumns knownColumns = ResultColumns.Name | ResultColumns.Duration | ResultColumns.Iterations | ResultColumns.Score;
+            const ResultColumns knownColumns = ResultColumns.Name | ResultColumns.Duration | ResultColumns.Iterations | ResultColumns.Score;
             Assert.AreEqual(ResultColumns.All & knownColumns, knownColumns);
         }
 
